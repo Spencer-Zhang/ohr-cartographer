@@ -23,8 +23,6 @@ class Mapper
     width  = file.unpack("v*")[0]
     height = file.unpack("v*")[1]
 
-    p [width, height]
-
     tilemap = file.unpack("C*")[4..3+width*height]
 
     png = ChunkyPNG::Image.new(width, height, ChunkyPNG::Color::WHITE)
