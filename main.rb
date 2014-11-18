@@ -1,9 +1,11 @@
-require_relative 'tiledrawer.rb'
+require_relative 'mapper.rb'
 
-FILENAME = "mansion"
+RPG_NAME = "mansion"
 
-if !File.file?("#{FILENAME}.rpgdir/archinym.lmp")
-  exec "unlump.exe #{FILENAME}.rpg"
+if !File.file?("#{RPG_NAME}.rpgdir/archinym.lmp")
+  exec "unlump.exe #{RPG_NAME}.rpg"
 else
   puts "File is already unlumped"
 end
+
+Mapper.draw_map(RPG_NAME, 0)
