@@ -13,9 +13,14 @@ end
 module OHR
   class Tileset
 
+    attr_reader :animation
     def initialize rpg, id
       @rpg = rpg
+      @tileset_id = id
       tileset(id)
+
+      file = File.binread("#{@rpg.filename}.rpgdir/#{@rpg.archinym}.tap", 80, 80*id).unpack("v*")
+      @animation = [file[0], file[20]]
 
       draw_png palette, 16, 16
     end
@@ -49,7 +54,7 @@ module OHR
       (0..399).each do |i|
         phase = i%4
         index = i/4
-        tile[4*index+phase] = tileset(0)[index%5 + 80*(index/5) + 80*200*phase + 5*(id%16) + 80*20*(id/16)]
+        tile[4*index+phase] = tileset(@tileset_id)[index%5 + 80*(index/5) + 80*200*phase + 5*(id%16) + 80*20*(id/16)]
       end
 
       return tile
@@ -57,18 +62,3 @@ module OHR
 
   end
 end
-
-
-# rpg = OHR::RPG.new("mansion")
-# tileset = OHR::Tileset.new(rpg, 0)
-# (0..60).each do |i|
-#   tile = tileset.load_tile(i)
-
-#   png = ChunkyPNG::Image.new(20, 20)
-
-#   400.times do |j|
-#     png[j%20, j/20] = tile[j]
-#   end
-
-#   png.save("tiles/tile#{i}.png", interlace:true)
-# end
