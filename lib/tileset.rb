@@ -23,8 +23,6 @@ module OHR
       if file
         @animation = [file.unpack("v*")[0], file.unpack("v*")[20]]
       end
-
-      draw_png palette, 16, 16
     end
 
     def palette

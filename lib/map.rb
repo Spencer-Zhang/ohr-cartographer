@@ -1,5 +1,5 @@
 require "oily_png"
-require_relative "tile"
+require_relative "tileset"
 
 module OHR
   class Map

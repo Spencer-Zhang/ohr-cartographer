@@ -1,5 +1,5 @@
-require_relative 'rpg.rb'
-require_relative 'map.rb'
+require_relative 'lib/rpg'
+require_relative 'lib/map'
 require 'benchmark'
 
 if(ARGV[0])
