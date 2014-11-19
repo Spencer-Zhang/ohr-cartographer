@@ -10,16 +10,32 @@ if(ARGV[0])
   data_size = File.binread("#{rpg.filename}.rpgdir/binsize.bin").unpack("v*")[4]
   n_maps = File.size("#{rpg.filename}.rpgdir/#{rpg.archinym}.map")/data_size
 
-  if(ARGV[1] == nil)
-    p "This game has #{n_maps} maps."
-  elsif(ARGV[1] == "all")
-    n_maps.times do |i|
-      p "Drawing map #{i}"
-      map = OHR::Map.new(rpg, i)
+  loop do
+    puts "Please enter the id of the map you want to print (0-#{n_maps-1})"
+    puts "Type 'all' to print all the maps."
+    puts "Type 'quit' to close this program."
+    puts ""
+    print "> "
+
+    input = STDIN.gets.chomp.downcase
+
+    if input == "all"
+      n_maps.times do |i|
+        puts "Drawing map #{i}"
+        map = OHR::Map.new(rpg, i)
+        map.draw
+      end
+    elsif input.to_i.to_s == input
+      puts "Drawing map #{input}"
+      map = OHR::Map.new(rpg, input.to_i)
       map.draw
+    elsif input == "quit"
+      break
+    else
+      puts "Invalid input, please try again.\n"
     end
-  elsif(ARGV[1].to_i.to_s == ARGV[1])
-    map = OHR::Map.new(rpg, ARGV[1].to_i)
-    map.draw
   end
+else
+  puts "You must enter an rpg-file"
+  puts "Usage: ruby main.rb <rpg-name>"
 end
