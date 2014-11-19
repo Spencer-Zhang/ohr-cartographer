@@ -1,4 +1,5 @@
 require "oily_png"
+require_relative "tile"
 
 module OHR
   class Map
@@ -21,7 +22,7 @@ module OHR
     end
 
     def load_tilemap
-      file = File.binread("#{@rpg.filename}.rpgdir/#{@rpg.archinym}.t01", nil, 7)
+      file = File.binread("#{@rpg.filename}.rpgdir/#{get_lump_name}", nil, 7)
       @width  = file.unpack("v*")[0]
       @height = file.unpack("v*")[1]
       @tilemap = file.unpack("C*")[4..3+@width*@height]
@@ -29,9 +30,15 @@ module OHR
 
 
     def draw
-      png = ChunkyPNG::Image.new(@width, @height, ChunkyPNG::Color::WHITE)
+      png = ChunkyPNG::Image.new(20*@width, 20*@height, ChunkyPNG::Color::WHITE)
+      tileset = OHR::Tileset.new(@rpg, 0)
+
       (@width*@height).times do |i|
-        png[i%@width, i/@width] = ChunkyPNG::Color::rgb(@tilemap[i], @tilemap[i], @tilemap[i])
+        tile = tileset.load_tile(@tilemap[i])
+
+        (0..399).each do |j|
+          png[(20*(i%@width) + j%20), (20*(i/@width) + j/20)] = tile[j]
+        end
       end
       Dir.mkdir("maps") unless File.exists?("maps")
       png.save("maps/#{@rpg.filename}-#{@map_id}.png", interlace: true)
