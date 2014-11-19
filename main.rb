@@ -4,14 +4,13 @@ require 'benchmark'
 
 if(ARGV[0])
   rpg_name = ARGV[0].split(".")[0]
-
   rpg = OHR::RPG.new(rpg_name)
 
   data_size = File.binread("#{rpg.filename}.rpgdir/binsize.bin").unpack("v*")[4]
   n_maps = File.size("#{rpg.filename}.rpgdir/#{rpg.archinym}.map")/data_size
 
   loop do
-    puts "Please enter the id of the map you want to print (0-#{n_maps-1})"
+    puts "\nPlease enter the id of the map you want to print (0-#{n_maps-1})"
     puts "Type 'all' to print all the maps."
     puts "Type 'quit' to close this program."
     puts ""
