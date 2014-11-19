@@ -1,9 +1,8 @@
 require_relative 'lib/rpg'
 require_relative 'lib/map'
-require 'benchmark'
 
 if(ARGV[0])
-  rpg_name = ARGV[0].split(".")[0]
+  rpg_name = File.basename(ARGV[0]).split(".")[0]
   rpg = OHR::RPG.new(rpg_name)
 
   data_size = File.binread("#{rpg.filename}.rpgdir/binsize.bin").unpack("v*")[4]
