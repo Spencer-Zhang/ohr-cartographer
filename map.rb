@@ -41,8 +41,8 @@ module OHR
 
 
     def draw
-      png = ChunkyPNG::Image.new(20*@width, 20*@height, ChunkyPNG::Color::WHITE)
       tileset = OHR::Tileset.new(@rpg, @tileset)
+      png = ChunkyPNG::Image.new(20*@width, 20*@height, tileset.palette[0])
 
       (@width*@height).times do |i|
         tile_id = @tilemap[i]
@@ -50,16 +50,15 @@ module OHR
         if tile_id > 208
           tile_id = tile_id - 208 + tileset.animation[1]
         elsif tile_id > 160
-          tile_id = tile_id - 208 + tileset.animation[0]
+          tile_id = tile_id - 160 + tileset.animation[0]
         end
 
         tile = tileset.load_tile(tile_id)
 
-        p @tilemap[i] if tile.include?(nil)
-
         (0..399).each do |j|
-          png.set_pixel(20*(i % @width) + j%20, (20*(i/@width) + j/20), tile[j])
+          png.set_pixel(20*(i % @width) + j%20, (20*(i/@width) + j/20), tile[j]) if tile[j] != nil
         end
+
       end
       Dir.mkdir("maps") unless File.exists?("maps")
       png.save("maps/#{@rpg.filename}-#{@map_id}.png", interlace: true)
@@ -67,3 +66,7 @@ module OHR
 
   end
 end
+
+rpg = OHR::RPG.new("spllshrd")
+map = OHR::Map.new(rpg, 50)
+map.draw

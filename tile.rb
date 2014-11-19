@@ -37,7 +37,7 @@ module OHR
 
     def tileset id
       @tileset ||= []
-      @tileset[id] ||= File.binread("#{@rpg.filename}.rpgdir/#{@rpg.archinym}.til", 320*200, id*320*200).unpack("C*").map{|i| palette[i]}
+      @tileset[id] ||= File.binread("#{@rpg.filename}.rpgdir/#{@rpg.archinym}.til", 320*200, id*320*200).unpack("C*").map{|i| i == 0 ? nil : palette[i]}
     end
 
     def draw
