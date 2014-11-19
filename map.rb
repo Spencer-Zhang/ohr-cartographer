@@ -66,7 +66,3 @@ module OHR
 
   end
 end
-
-rpg = OHR::RPG.new("spllshrd")
-map = OHR::Map.new(rpg, 50)
-map.draw

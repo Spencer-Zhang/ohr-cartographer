@@ -19,8 +19,10 @@ module OHR
       @tileset_id = id
       tileset(id)
 
-      file = File.binread("#{@rpg.filename}.rpgdir/#{@rpg.archinym}.tap", 80, 80*id).unpack("v*")
-      @animation = [file[0], file[20]]
+      file = File.binread("#{@rpg.filename}.rpgdir/#{@rpg.archinym}.tap", 80, 80*id)
+      if file
+        @animation = [file.unpack("v*")[0], file.unpack("v*")[20]]
+      end
 
       draw_png palette, 16, 16
     end
