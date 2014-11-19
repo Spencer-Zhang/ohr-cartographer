@@ -1,16 +1,12 @@
-require_relative 'mapper.rb'
+require_relative 'rpg.rb'
+require_relative 'map.rb'
 
 if(ARGV[0])
   rpg_name = ARGV[0].split(".")[0]
 
-  if File.exists?("#{rpg_name}.rpgdir")
+  rpg = OHR::RPG.new(rpg_name)
 
-  elsif File.file?("#{rpg_name}.rpg")
-    exec "unlump.exe #{rpg_name}.rpg"
-  else
-    raise "Cannot find rpg file or directory"
-  end
-
-  Mapper.draw_map(rpg_name, 0)
+  map = OHR::Map.new(rpg, 0)
+  map.draw
 
 end
