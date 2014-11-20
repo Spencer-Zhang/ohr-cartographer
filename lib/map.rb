@@ -29,14 +29,8 @@ module OHR
       
       default_tileset = file.unpack("v*")[0]
       tileset = []
-      tileset[0] = file.unpack("v*")[22]
-      tileset[1] = file.unpack("v*")[23]
-      tileset[2] = file.unpack("v*")[24]
-      tileset[3] = file.unpack("v*")[26]
-      tileset[4] = file.unpack("v*")[27]
-      tileset[5] = file.unpack("v*")[28]
-      tileset[6] = file.unpack("v*")[29]
-      tileset[7] = file.unpack("v*")[30]
+      tileset[0..2] = file.unpack("v*")[22..24]
+      tileset[3..7] = file.unpack("v*")[26..30]
       tileset.map!{|layer| layer == 0 ? default_tileset : layer-1}
 
       return tileset
