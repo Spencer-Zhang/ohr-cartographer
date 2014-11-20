@@ -1,11 +1,9 @@
 ohr-cartographer
 ================
-Reads OHR RPG formats and saves tilemaps as PNGs. For now, this program will only print out the first map in a game.
+Reads OHR RPG formats and saves tilemaps as PNGs. Run mapper.exe through the command line, or click and drag an RPG file onto the file.
 
-###Usage
 ```
-ruby main.rb <rpg-name> <map_number>    # Draws one specific map from the game
-ruby main.rb <rpg-name> all             # Draws all the maps in the game (this can take a while!)
+mapper.exe <rpg_name>
 ```
 
 Visit http://rpg.hamsterrepublic.com/ohrrpgce/Main_Page to learn more about how to make games with the OHRRPGCE!
