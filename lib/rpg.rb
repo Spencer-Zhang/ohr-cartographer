@@ -11,7 +11,7 @@ module OHR
     def unlump
       if File.exists?("#{self.filename}.rpgdir")
       elsif File.file?("#{self.filename}.rpg")
-        pid = spawn "unlump.exe #{self.filename}.rpg"
+        pid = spawn "unlump.exe \"#{self.filename}.rpg\""
         Process.wait(pid)
       else
         raise "Cannot find rpg file or directory"
