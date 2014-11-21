@@ -14,7 +14,7 @@ module OHR
         pid = spawn "unlump.exe \"#{self.filename}.rpg\""
         Process.wait(pid)
       else
-        raise "Cannot find rpg file or directory"
+        raise "Cannot find rpg file or directory - #{self.filename}"
       end
     end
 
