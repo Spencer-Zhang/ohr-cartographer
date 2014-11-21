@@ -7,3 +7,5 @@ mapper.exe <rpg_name>
 ```
 
 Visit http://rpg.hamsterrepublic.com/ohrrpgce/Main_Page to learn more about how to make games with the OHRRPGCE!
+
+The mapper.exe executable was build using ocra. https://github.com/larsch/ocra
