@@ -74,7 +74,7 @@ module OHR
         end
       end
       Dir.mkdir("maps") unless File.exists?("maps")
-      png.save("maps/#{@rpg.filename}-#{@map_id}.png", interlace: true)
+      png.save("maps/#{@rpg.rpg_name}-#{@map_id}.png", interlace: true)
     end
 
   end
