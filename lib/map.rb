@@ -57,9 +57,9 @@ module OHR
         (@width*@height).times do |i|
           tile_id = @tilemap[i + layer*@width*@height]
 
-          if tile_id > 208
+          if tile_id >= 208
             tile_id = tile_id - 208 + tileset.animation[1]
-          elsif tile_id > 160
+          elsif tile_id >= 160
             tile_id = tile_id - 160 + tileset.animation[0]
           end
 
