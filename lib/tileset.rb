@@ -19,7 +19,7 @@ module OHR
       @tileset_id = id
       tileset(id)
 
-      file = File.binread("#{@rpg.rpg_name}.rpgdir/#{@rpg.archinym}.tap", 80, 80*id)
+      file = File.binread("#{@rpg.path}.rpgdir/#{@rpg.archinym}.tap", 80, 80*id)
       if file
         @animation = [file.unpack("v*")[0], file.unpack("v*")[20]]
       end
@@ -29,7 +29,7 @@ module OHR
       @palette ||= load_master_palette 0
     end
     def load_master_palette id
-      file = File.binread("#{@rpg.rpg_name}.rpgdir/palettes.bin")
+      file = File.binread("#{@rpg.path}.rpgdir/palettes.bin")
       filesize = file.unpack("v*")[1]
       palette = file.unpack("C*")[filesize*id + 4..filesize*id + 3+filesize]
       (0..255).to_a.map{|i| ChunkyPNG::Color::rgb(palette[3*i], palette[3*i+1], palette[3*i+2]) }
@@ -37,7 +37,7 @@ module OHR
 
     def tileset id
       @tileset ||= []
-      @tileset[id] ||= File.binread("#{@rpg.rpg_name}.rpgdir/#{@rpg.archinym}.til", 320*200, id*320*200).unpack("C*").map{|i| i == 0 ? nil : palette[i]}
+      @tileset[id] ||= File.binread("#{@rpg.path}.rpgdir/#{@rpg.archinym}.til", 320*200, id*320*200).unpack("C*").map{|i| i == 0 ? nil : palette[i]}
     end
 
     def draw

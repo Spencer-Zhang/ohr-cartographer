@@ -24,8 +24,8 @@ module OHR
 
 
     def get_tileset
-      data_size = File.binread("#{@rpg.rpg_name}.rpgdir/binsize.bin").unpack("v*")[4]
-      file = File.binread("#{@rpg.rpg_name}.rpgdir/#{@rpg.archinym}.map", data_size, @map_id * data_size)
+      data_size = File.binread("#{@rpg.path}.rpgdir/binsize.bin").unpack("v*")[4]
+      file = File.binread("#{@rpg.path}.rpgdir/#{@rpg.archinym}.map", data_size, @map_id * data_size)
       
       default_tileset = file.unpack("v*")[0]
       tileset = []
@@ -38,7 +38,7 @@ module OHR
 
 
     def load_tilemap
-      file = File.binread("#{@rpg.rpg_name}.rpgdir/#{get_lump_name}", nil, 7)
+      file = File.binread("#{@rpg.path}.rpgdir/#{get_lump_name}", nil, 7)
       @width  = file.unpack("v*")[0]
       @height = file.unpack("v*")[1]
 
