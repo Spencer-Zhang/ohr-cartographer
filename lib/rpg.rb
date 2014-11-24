@@ -1,21 +1,27 @@
 module OHR
   class RPG
 
-    attr_reader :filename, :archinym, :rpg_name
-    def initialize rpg_name
-      @filename = rpg_name
-      @rpg_name = File.basename(rpg_name)
+    attr_reader :path, :archinym, :rpg_name
+    def initialize path
+      @path = path
+      puts "RPG Path: #{@path}"
+      @rpg_name = File.basename(path).split(".")[0]
+      puts "RPG Name: #{@rpg_name}"
       unlump
       @archinym = File.open("#{rpg_name}.rpgdir/archinym.lmp", &:readline).chomp
+      puts "RPG Archinym: #{@archinym}"
     end
 
     def unlump
-      if File.exists?("#{self.filename}.rpgdir")
-      elsif File.file?("#{self.filename}.rpg")
-        pid = spawn "unlump \"#{self.filename}.rpg\""
+      puts "Checking for RPGDIR at #{self.path}.rpgdir..."
+      puts "Checking for RPG at #{self.path}.rpg..."
+
+      if File.exists?("#{self.path}.rpgdir")
+      elsif File.file?("#{self.path}.rpg")
+        pid = spawn "unlump.exe", "#{self.path}.rpg"
         Process.wait(pid)
       else
-        raise "Cannot find rpg file or directory - #{self.filename}"
+        raise "Cannot find rpg file or directory - #{self.path}"
       end
     end
 

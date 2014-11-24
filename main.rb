@@ -3,11 +3,11 @@ require_relative 'lib/map'
 
 begin
   if(ARGV[0])
-    rpg_name = ARGV[0].split(".")[0]
-    rpg = OHR::RPG.new(rpg_name)
+    rpg_path = ARGV[0]
+    rpg = OHR::RPG.new(rpg_path)
 
-    data_size = File.binread("#{rpg.filename}.rpgdir/binsize.bin").unpack("v*")[4]
-    n_maps = File.size("#{rpg.filename}.rpgdir/#{rpg.archinym}.map")/data_size
+    data_size = File.binread("#{rpg.path}.rpgdir/binsize.bin").unpack("v*")[4]
+    n_maps = File.size("#{rpg.path}.rpgdir/#{rpg.archinym}.map")/data_size
 
     loop do
       puts "\nPlease enter the id of the map you want to print (0-#{n_maps-1})"
@@ -36,7 +36,7 @@ begin
     end
   else
     puts "You must enter an rpg-file"
-    puts "Usage: ruby main.rb <rpg-name>"
+    puts "Usage: ruby main.rb <rpg file>"
   end
 rescue Exception => e
   puts e.message
