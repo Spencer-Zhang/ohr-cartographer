@@ -26,9 +26,11 @@ module OHR
     end
 
     def palette
-      @palette ||= load_master_palette 0
+      @palette ||= load_master_palette
     end
-    def load_master_palette id
+    def load_master_palette
+      id = File.binread("#{@rpg.path}.rpgdir/#{@rpg.archinym}.gen", nil, 7).unpack("v*")[78]
+
       if(File.exists? "#{@rpg.path}.rpgdir/palettes.bin")
         file = File.binread("#{@rpg.path}.rpgdir/palettes.bin")
         filesize = file.unpack("v*")[1]
