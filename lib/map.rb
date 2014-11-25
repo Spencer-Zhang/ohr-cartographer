@@ -24,14 +24,15 @@ module OHR
 
 
     def get_tileset
-      data_size = File.binread("#{@rpg.path}.rpgdir/binsize.bin").unpack("v*")[4]
+      data_size = @rpg.map_size
+      
       file = File.binread("#{@rpg.path}.rpgdir/#{@rpg.archinym}.map", data_size, @map_id * data_size)
       
       default_tileset = file.unpack("v*")[0]
       tileset = []
       tileset[0..2] = file.unpack("v*")[22..24]
       tileset[3..7] = file.unpack("v*")[26..30]
-      tileset.map!{|layer| layer == 0 ? default_tileset : layer-1}
+      tileset.map!{|layer| (layer == 0 || layer == nil) ? default_tileset : layer-1}
 
       return tileset
     end

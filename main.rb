@@ -6,7 +6,7 @@ begin
     rpg_path = ARGV[0]
     rpg = OHR::RPG.new(rpg_path)
 
-    data_size = File.binread("#{rpg.path}.rpgdir/binsize.bin").unpack("v*")[4]
+    data_size = rpg.map_size
     n_maps = File.size("#{rpg.path}.rpgdir/#{rpg.archinym}.map")/data_size
 
     loop do
