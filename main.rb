@@ -1,6 +1,32 @@
 require_relative 'lib/rpg'
 require_relative 'lib/map'
 
+
+
+def parse_input input
+  return nil if input =~ /[^\d\-\,\s]/
+
+  output = []
+  phrases = input.chomp.split(",")
+
+  phrases.each do |phrase|
+    numbers = phrase.split("-")
+
+    if numbers.size == 1
+      output.push numbers[0].strip.to_i
+    elsif numbers.size == 2
+      output += (numbers[0].strip.to_i..numbers[1].strip.to_i).to_a
+    else
+      return nil
+    end
+
+  end
+
+  return output.uniq.sort
+end
+
+
+
 begin
   if(ARGV[0])
     rpg_path = ARGV[0]
@@ -11,6 +37,8 @@ begin
 
     loop do
       puts "\nPlease enter the id of the map you want to print (0-#{n_maps-1})"
+      puts "You can enter a list or range of maps to be printed"
+      puts "(i.e. '4-8, 10, 12')"
       puts "Type 'all' to print all the maps."
       puts "Type 'quit' to close this program."
       puts ""
@@ -24,14 +52,21 @@ begin
           map = OHR::Map.new(rpg, i)
           map.draw
         end
-      elsif input.to_i.to_s == input
-        puts "Drawing map #{input}"
-        map = OHR::Map.new(rpg, input.to_i)
-        map.draw
+
       elsif input == "quit"
         break
+
       else
-        puts "Invalid input, please try again.\n"
+        maps = parse_input(input)
+        if maps && maps.size > 0
+          maps.each do |map_id|
+            puts "Drawing map #{map_id}"
+            map = OHR::Map.new(rpg, map_id)
+            map.draw
+          end
+        else
+          puts "Invalid input: #{input}.\n"
+        end
       end
     end
   else
