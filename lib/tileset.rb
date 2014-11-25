@@ -29,10 +29,17 @@ module OHR
       @palette ||= load_master_palette 0
     end
     def load_master_palette id
-      file = File.binread("#{@rpg.path}.rpgdir/palettes.bin")
-      filesize = file.unpack("v*")[1]
-      palette = file.unpack("C*")[filesize*id + 4..filesize*id + 3+filesize]
-      (0..255).to_a.map{|i| ChunkyPNG::Color::rgb(palette[3*i], palette[3*i+1], palette[3*i+2]) }
+      if(File.exists? "#{@rpg.path}.rpgdir/palettes.bin")
+        file = File.binread("#{@rpg.path}.rpgdir/palettes.bin")
+        filesize = file.unpack("v*")[1]
+        palette = file.unpack("C*")[filesize*id + 4..filesize*id + 3+filesize]
+        (0..255).to_a.map{|i| ChunkyPNG::Color::rgb(palette[3*i], palette[3*i+1], palette[3*i+2]) }
+      else
+        file = File.binread("#{@rpg.path}.rpgdir/#{@rpg.archinym}.mas", nil, 7)
+        palette = file.unpack("v*")[0...1536/2]
+        p palette[0..19]
+        (0..255).to_a.map{|i| ChunkyPNG::Color::rgb(palette[3*i]*4, palette[3*i+1]*4, palette[3*i+2]*4) }
+      end
     end
 
     def tileset id
