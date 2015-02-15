@@ -3,12 +3,9 @@ module OHR
 
     attr_reader :path, :archinym, :rpg_name
     def initialize path
-
-      p 
-
-      @path = path.split(".")[0]
+      @rpg_name = File.basename(path, File.extname(path))
+      @path = File.dirname(path) + '\\' + @rpg_name
       puts "RPG Path: #{@path}"
-      @rpg_name = File.basename(path)
       puts "RPG Name: #{@rpg_name}"
       unlump
       @archinym = File.open("#{self.path}.rpgdir/archinym.lmp", &:readline).chomp

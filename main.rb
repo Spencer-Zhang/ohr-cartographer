@@ -26,7 +26,6 @@ def parse_input input
 end
 
 
-
 begin
   if(ARGV[0])
     rpg_path = ARGV[0]
