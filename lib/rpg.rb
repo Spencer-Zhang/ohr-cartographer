@@ -8,7 +8,7 @@ module OHR
       puts "RPG Path: #{@path}"
       puts "RPG Name: #{@rpg_name}"
       unlump
-      @archinym = File.open("#{self.path}.rpgdir/archinym.lmp", &:readline).chomp
+      @archinym = File.open("#{self.path}.rpgdir/archinym.lmp", &:readline).chomp.downcase
       puts "RPG Archinym: #{@archinym}"
     end
 
