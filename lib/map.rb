@@ -56,6 +56,16 @@ module OHR
     end
 
 
+    def save_tilemap filename
+      File.open(filename, "wb") do |file|
+        # First 7 bytes are garbage, we can fill them as we please
+        file.write ["Cartogf"].pack("a7")
+        file.write [@width, @height].pack("v2")
+        file.write @tilemap.flatten.pack("C*")
+      end
+    end
+
+
     def draw
       tileset = OHR::Tileset.new(@rpg, @tileset[0])
       png = ChunkyPNG::Image.new(20*@width, 20*@height, tileset.palette[0])
