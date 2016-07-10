@@ -38,21 +38,23 @@ begin
       puts "\nPlease enter the id of the map you want to print (0-#{n_maps-1})"
       puts "You can enter a list or range of maps to be printed"
       puts "(i.e. '4-8, 10, 12')"
-      puts "Type 'all' to print all the maps."
-      puts "Type 'quit' to close this program."
+      puts "Type 'a/all' to print all the maps."
+      puts "Type 'q/quit' to close this program."
       puts ""
       print "> "
 
-      input = STDIN.gets.chomp.downcase
+      input = STDIN.gets
+      break if !input
+      input = input.chomp.downcase
 
-      if input == "all"
+      if input == "all" || input == "a"
         n_maps.times do |i|
           puts "Drawing map #{i}"
           map = OHR::Map.new(rpg, i)
           map.draw
         end
 
-      elsif input == "quit"
+      elsif input == "quit" || input == "q"
         break
 
       else
