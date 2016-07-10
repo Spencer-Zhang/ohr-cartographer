@@ -76,7 +76,7 @@ begin
   end
 rescue Exception => e
   puts e.message
-  puts e.backtrace.inspect
+  puts e.backtrace
 end
 
 puts "\nPress Enter to continue...\n"
