@@ -42,9 +42,17 @@ module OHR
       file = File.binread("#{@rpg.path}.rpgdir/#{get_lump_name}", nil, 7)
       @width  = file.unpack("v*")[0]
       @height = file.unpack("v*")[1]
-
       @n_layers = file.unpack("C*").size / (@width * @height)
-      @tilemap = file.unpack("C*")[4..3+@n_layers*@width*@height]
+      raw_tiles = file.unpack("C*")[4..3+@n_layers*@width*@height]
+
+      row_start = 0
+      @tilemap = Array.new(@n_layers) {
+        Array.new(@height) {
+          row = raw_tiles[row_start, @width]
+          row_start += @width
+          row
+        }
+      }
     end
 
 
@@ -53,25 +61,27 @@ module OHR
       png = ChunkyPNG::Image.new(20*@width, 20*@height, tileset.palette[0])
 
       @n_layers.times do |layer|
+        tilelayer = @tilemap[layer]
         tileset = OHR::Tileset.new(@rpg, @tileset[layer]) if layer > 0
 
-        (@width*@height).times do |i|
-          tile_id = @tilemap[i + layer*@width*@height]
+        @height.times do |y|
+          @width.times do |x|
+            tile_id = tilelayer[y][x]
 
-          if tile_id >= 208
-            tile_id = tile_id - 208 + tileset.animation[1]
-          elsif tile_id >= 160
-            tile_id = tile_id - 160 + tileset.animation[0]
-          end
+            if tile_id >= 208
+              tile_id = tile_id - 208 + tileset.animation[1]
+            elsif tile_id >= 160
+              tile_id = tile_id - 160 + tileset.animation[0]
+            end
 
-          if layer == 0 || tile_id > 0
-            tile = tileset.load_tile(tile_id)
+            if layer == 0 || tile_id > 0
+              tile = tileset.load_tile(tile_id)
 
-            (0..399).each do |j|
-              png.set_pixel(20*(i % @width) + j%20, (20*(i/@width) + j/20), tile[j]) if tile[j] != nil
+              (0..399).each do |j|
+                png.set_pixel(20*x + j%20, (20*y + j/20), tile[j]) if tile[j] != nil
+              end
             end
           end
-
         end
       end
       Dir.mkdir("maps") unless File.exists?("maps")
