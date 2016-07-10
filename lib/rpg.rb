@@ -4,7 +4,7 @@ module OHR
     attr_reader :path, :archinym, :rpg_name
     def initialize path
       @rpg_name = File.basename(path, File.extname(path))
-      @path = File.dirname(path) + '\\' + @rpg_name
+      @path = File.dirname(path) + '/' + @rpg_name
       puts "RPG Path: #{@path}"
       puts "RPG Name: #{@rpg_name}"
       unlump
@@ -27,8 +27,13 @@ module OHR
 
       if File.exists?("#{self.path}.rpgdir")
       elsif File.file?("#{self.path}.rpg")
-        puts "Running #{Dir.pwd}/unlump.exe \"#{self.path}.rpg\""
-        pid = spawn "#{Dir.pwd}/unlump.exe", "#{self.path}.rpg"
+        if Gem.win_platform?
+          exe = "#{Dir.pwd}/unlump.exe"
+        else
+          exe = "#{Dir.pwd}/unlump"
+        end
+        puts "Running #{exe} \"#{self.path}.rpg\""
+        pid = spawn "#{exe}", "#{self.path}.rpg"
         Process.wait(pid)
       else
         raise "Cannot find rpg file or directory - #{self.path}.rpg"
