@@ -27,10 +27,17 @@ module OHR
 
       if File.exists?("#{self.path}.rpgdir")
       elsif File.file?("#{self.path}.rpg")
-        if Gem.win_platform?
+        if /cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM
           exe = "#{Dir.pwd}/unlump.exe"
-        else
+        elsif File.exists?("#{Dir.pwd}/unlump")
           exe = "#{Dir.pwd}/unlump"
+        elsif /darwin/ =~ RUBY_PLATFORM
+          exe = "#{Dir.pwd}/unlump-mac"
+        elsif /linux/ =~ RUBY_PLATFORM
+          exe = "#{Dir.pwd}/unlump-linux_x86"
+        else
+          # Hope that unlump is in PATH
+          exe = "unlump"
         end
         puts "Running #{exe} \"#{self.path}.rpg\""
         pid = spawn "#{exe}", "#{self.path}.rpg"
